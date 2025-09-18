@@ -1,0 +1,5 @@
+##Pre-processamento
+Nessa fase, foi primeiramente feita uma avaliação dos dados, para verificar quais seriam necessários para responder as perguntas do trabalho. Foi concluído que os dados necessários eram somente os **jogadores de cada partida** e o **resultado dela**. No entanto, era necessário colocar os dados em um formato mais legível, pois os nomes dos jogadores não estavam escritos em um formato padrão, e o resultado de uma partida poderia ser expresso como um valor binário, não sendo necessário strings para isso. Assim, foi feito o seguinte procedimento:
+- Foram removidas as colunas de contador, e todas as outras, com exceção de ***Jogadore(a)s*** e ***Resultado***;
+- Os valores de ***Resultado*** foram alterados para valores binários, com uma vitória correspondendo ao valor 1, e uma derrota ao 0;
+- Os nomes dos jogadores foram todos padronizados, corrigindo erros de corrupção nos dados, se tornando: **Romario, Roberto, Ágata, Marta, Bárbara, Shelda, Ronaldo** e **Alonso**.
