@@ -1,7 +1,7 @@
 ## Relatório
 Aqui será registrado o passo-a-passo do Trabalho 1 de Mineração de Dados!
 
-# Pré-processamento
+### Pré-processamento
 Nessa fase, foi primeiramente feita uma avaliação dos dados, para verificar quais seriam necessários para responder as perguntas do trabalho. Foi concluído que os dados necessários eram somente os **jogadores de cada partida** e o **resultado dela**. No entanto, era necessário colocar os dados em um formato mais legível, pois os nomes dos jogadores não estavam escritos em um formato padrão, e o resultado de uma partida poderia ser expresso como um valor binário, não sendo necessário strings para isso. Assim, foi feito o seguinte procedimento:
 - Foram removidas as colunas de contador, e todas as outras, com exceção de ***Jogadore(a)s*** e ***Resultado***;
     - Para facilitar, essas colunas nem sequer foram lidas ao tratar o dataset
@@ -12,12 +12,13 @@ Nessa fase, foi primeiramente feita uma avaliação dos dados, para verificar qu
     - Os erros foram corrigidos a partir de um mapeamento entre o nome incorreto e sua versão correta. Os erros foram identificados manualmente, mas corrigidos por esse mapeamento.
 
 Resultado final dos dados:
-        ```
-        Jogadore(a)s,Resultado
-        "Romario, Roberto, Alonso",0
-        "Alonso, Roberto, Ágata",0
-        "Ágata, Ronaldo, Marta",1
-        "Ágata, Marta, Bárbara",1
-        "Bárbara, Roberto, Romario",0
-        ```
-*Como o Dataset é muito extenso, foi colocado somente as primeiras 5 linhas, de exemplo.
+```
+    Jogadore(a)s,Resultado
+    "Romario, Roberto, Alonso",0
+    "Alonso, Roberto, Ágata",0
+    "Ágata, Ronaldo, Marta",1
+    "Ágata, Marta, Bárbara",1
+    "Bárbara, Roberto, Romario",0
+```
+
+*Como o Dataset é muito extenso, foram colocadas somente as primeiras 5 linhas, de exemplo.
