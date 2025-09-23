@@ -1,5 +1,4 @@
 ## Relatório
-Aqui será registrado o passo a passo do Trabalho 1 de Mineração de Dados!
 
 ### Pré-processamento
 
@@ -7,12 +6,12 @@ Nessa fase, foi primeiramente feita uma avaliação dos dados, para verificar qu
 
 #### Arquivo `preproc.py`
 - Foram removidas as colunas de contador, e todas as outras, com exceção de ***Jogadore(a)s*** e ***Resultado***;
-    - Para facilitar, essas colunas nem sequer foram lidas ao tratar o dataset
+    - Para facilitar, essas colunas nem sequer foram lidas ao tratar o dataset;
 - Os valores de ***Resultado*** foram padronizados para **Ganhou** e **Perdeu**;
 - Os nomes dos jogadores também foram ajustados, corrigindo erros de corrupção nos dados, tornando-se: **Romario, Roberto, Agata, Marta, Barbara, Shelda, Ronaldo** e **Alonso**.
-    - Acentos nos nomes foram removidos por simplificação; 
-- Em cada linha, os nomes dos jogadores foram organizados alfabéticamente
-    - Para a padronização, a leitura foi feita usando codificação `latin-1`, a fim de permitir a leitura de certos unicode 'estranhos' que apareciam nos dados
+    - Acentos nos nomes foram removidos para simplificar; 
+- Em cada linha, os nomes dos jogadores foram organizados alfabéticamente;
+    - Para a padronização, a leitura foi feita usando codificação `latin-1`, a fim de permitir a leitura de certos unicode 'estranhos' que apareciam nos dados;
     - Os erros foram corrigidos a partir de um mapeamento entre o nome incorreto e sua versão correta. Os erros foram identificados manualmente, mas corrigidos por esse mapeamento.
 
 Resultado final dos dados (arquivo `partidas_limpo.csv`):
@@ -30,30 +29,30 @@ Resultado final dos dados (arquivo `partidas_limpo.csv`):
 #### Arquivo `verifica_assoc.R`
 Após a seleção e limpeza dos dados, foi necessário transformá-los em transações, formato padrão usado pelo algoritmo de associação que será utilizado para extração das regras.
 Assim, cada linha do arquivo `partidas_limpo.csv` foi transformada em uma transação contendo:
-- Os nomes (já padronizados e ordenados) dos jogadores que participaram da partida
-- O resultado da partida (`Ganhou` ou `Perdeu`)
+- Os nomes (já padronizados e ordenados) dos jogadores que participaram da partida;
+- O resultado da partida (`Ganhou` ou `Perdeu`);
 
 Após essa operação, o algoritmo passa a gerar regras do tipo:
 `{Jogador A, Jogador B}  =>  {Ganhou}`
 ou
-`{Jogador X}  =>  {Perdeu}`
+`{Jogador X}  =>  {Perdeu}`.
 
 ### 
 ### Extração das Regras de Associação (Arquivo `verifica_assoc.R`)
 Após o pré-processamento, aplicamos Mineração de Regras de Associação com o objetivo de descobrir:
-- Combinações de jogadores mais associada a vitórias (lado direito da regra = `Ganhou`)
-- Combinações de jogadores mais associada a derrotas (lado direito = `Perdeu`)
-- Evidências de um possível "jogador estrela" (aquele cuja presença aumenta a probabilidade de vitória acima da taxa base do conjunto de dados)
+- Combinações de jogadores mais associada a vitórias (lado direito da regra = `Ganhou`);
+- Combinações de jogadores mais associada a derrotas (lado direito = `Perdeu`);
+- Evidências de um possível "jogador estrela" (aquele cuja presença aumenta a probabilidade de vitória acima da taxa base do conjunto de dados);
 
 #### Algoritmo utilizado
 Foi usado o algoritmo `Apriori` (pacote `arules` em R) com parâmetros:
-- `support >= 0.10` (a combinação aparece em pelo menos 10% das transações)
-- `confidence >= 0.50` (pelo menos 50% das vezes em que o antecedente ocorre, o consequente também ocorre)
-- `target = "rules"`
+- `support >= 0.10` (a combinação aparece em pelo menos 10% das transações);
+- `confidence >= 0.50` (pelo menos 50% das vezes em que o antecedente ocorre, o consequente também ocorre);
+- `target = "rules"`;
 
 Após gerar as regras, elas foram filtradas em dois subconjuntos:
-1. Regras com consequente `Ganhou` (potencialmente indicam sinergias vencedoras)
-2. Regras com consequente `Perdeu` (indicam combinações que tendem a perder)
+1. Regras com consequente `Ganhou` (potencialmente indicam sinergias vencedoras);
+2. Regras com consequente `Perdeu` (indicam combinações que tendem a perder);
 
 Ambos os conjuntos foram ordenados por `confidence` de forma decrescente para destacar as associações mais fortes dentro dos parâmetros definidos.
 
@@ -70,7 +69,7 @@ Após a aplicação do algoritmo para gerar as regras com consequente `Ganhou` o
 ```
 Desse modo, foi possível constatar que:
 - A combinação de jogadores mais associada a vitórias foi `{Agata, Marta}` com uma confiança de aproximadamente 70%. 
-- A jogadora estrela foi **Marta** com uma confiança de aproximadamente 67%
+- A jogadora estrela foi **Marta** com uma confiança de aproximadamente 67%.
 
 #### Combinação perdedora e pior jogador
 Após a aplicação do algoritmo para gerar as regras com consequente `Perdeu` obtivemos o seguinte resultado:
