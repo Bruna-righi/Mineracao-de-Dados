@@ -27,7 +27,7 @@ Resultado final dos dados (arquivo `partidas_limpo.csv`):
 
 *Como o Dataset é muito extenso, foram colocadas somente as primeiras 5 linhas, de exemplo.
 
-## Arquivo `verifica_assoc.R
+## Arquivo `verifica_assoc.R`
 Após a seleção e limpeza dos dados, foi necessário transformá-los em transações, formato padrão usado pelo algoritmo de associação que será utilizado para extração das regras.
 Assim, cada linha do arquivo `partidas_limpo.csv` foi transformada em uma transação contendo:
 - Os nomes (já padronizados e ordenados) dos jogadores que participaram da partida
