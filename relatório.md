@@ -1,17 +1,21 @@
 ## Relatório
-Aqui será registrado o passo-a-passo do Trabalho 1 de Mineração de Dados!
+Aqui será registrado o passo a passo do Trabalho 1 de Mineração de Dados!
 
-### Pré-processamento (Arquivo `preproc.py`)
-Nessa fase, foi primeiramente feita uma avaliação dos dados, para verificar quais seriam necessários para responder as perguntas do trabalho. Foi concluído que os dados necessários eram somente os **jogadores de cada partida** e o **resultado dela**. No entanto, era necessário colocar os dados em um formato mais legível, pois os nomes dos jogadores e o resultado das partidas não estavam escritos em um formato padrão. Assim, foi feito o seguinte procedimento:
+### Pré-processamento
+
+Nessa fase, foi primeiramente feita uma avaliação dos dados, para verificar quais seriam necessários para responder às perguntas do trabalho. Foi concluído que os dados necessários eram somente os **jogadores de cada partida** e o **resultado dela**. No entanto, era necessário colocar os dados em um formato mais legível, pois os nomes dos jogadores e o resultado das partidas não estavam escritos em um formato padrão. Assim, foi feito o seguinte procedimento:
+
+## Arquivo `preproc.py`
 - Foram removidas as colunas de contador, e todas as outras, com exceção de ***Jogadore(a)s*** e ***Resultado***;
     - Para facilitar, essas colunas nem sequer foram lidas ao tratar o dataset
 - Os valores de ***Resultado*** foram padronizados para **Ganhou** e **Perdeu**;
-- Os nomes dos jogadores também foram ajustados, corrigindo erros de corrupção nos dados, se tornando: **Romario, Roberto, Ágata, Marta, Bárbara, Shelda, Ronaldo** e **Alonso**.
+- Os nomes dos jogadores também foram ajustados, corrigindo erros de corrupção nos dados, tornando-se: **Romario, Roberto, Agata, Marta, Barbara, Shelda, Ronaldo** e **Alonso**.
+    - Acentos nos nomes foram removidos por simplificação; 
 - Em cada linha, os nomes dos jogadores foram organizados alfabéticamente
     - Para a padronização, a leitura foi feita usando codificação `latin-1`, a fim de permitir a leitura de certos unicode 'estranhos' que apareciam nos dados
     - Os erros foram corrigidos a partir de um mapeamento entre o nome incorreto e sua versão correta. Os erros foram identificados manualmente, mas corrigidos por esse mapeamento.
 
-Resultado final dos dados:
+Resultado final dos dados (arquivo `partidas_limpo.csv`):
 ```
     Jogadore(a)s,Resultado
     "Alonso, Roberto, Romario",Perdeu
@@ -23,22 +27,23 @@ Resultado final dos dados:
 
 *Como o Dataset é muito extenso, foram colocadas somente as primeiras 5 linhas, de exemplo.
 
+## Arquivo `verifica_assoc.R
+Após a seleção e limpeza dos dados, foi necessário transformá-los em transações, formato padrão usado pelo algoritmo de associação que será utilizado para extração das regras.
+Assim, cada linha do arquivo `partidas_limpo.csv` foi transformada em uma transação contendo:
+- Os nomes (já padronizados e ordenados) dos jogadores que participaram da partida
+- O resultado da partida (`Ganhou` ou `Perdeu`)
+
+Após essa operação, o algoritmo passa a gerar regras do tipo:
+`{Jogador A, Jogador B}  =>  {Ganhou}`
+ou
+`{Jogador X}  =>  {Perdeu}`
+
 ### 
-### Regras de Associação (Arquivo `verifica_assoc.R`)
+### Extração das Regras de Associação (Arquivo `verifica_assoc.R`)
 Após o pré-processamento, aplicamos Mineração de Regras de Associação com o objetivo de descobrir:
 - Combinações de jogadores mais associada a vitórias (lado direito da regra = `Ganhou`)
 - Combinações de jogadores mais associada a derrotas (lado direito = `Perdeu`)
 - Evidências de um possível "jogador estrela" (aquele cuja presença aumenta a probabilidade de vitória acima da taxa base do conjunto de dados)
-
-#### Preparação dos dados para transações
-Cada linha do arquivo `partidas_limpo.csv` foi transformada em uma transação contendo:
-- Os nomes (já padronizados e ordenados) dos jogadores que participaram da partida
-- O resultado da partida (`Ganhou` ou `Perdeu`)
-
-Assim, o algoritmo pode gerar regras do tipo:
-`{Jogador A, Jogador B}  =>  {Ganhou}`
-ou
-`{Jogador X}  =>  {Perdeu}`
 
 #### Algoritmo utilizado
 Foi usado o algoritmo `Apriori` (pacote `arules` em R) com parâmetros:
@@ -53,7 +58,7 @@ Após gerar as regras, elas foram filtradas em dois subconjuntos:
 Ambos os conjuntos foram ordenados por `confidence` de forma decrescente para destacar as associações mais fortes dentro dos parâmetros definidos.
 
 #### Combinação vitoriosa e jogador estrela
-Após a aplicação do algoritmo para gerar as rgras com consequente `Ganhou` obtivemos o seguinte resultado:
+Após a aplicação do algoritmo para gerar as regras com consequente `Ganhou` obtivemos o seguinte resultado:
 ```
         lhs                 rhs      support   confidence coverage  lift      count
     [1] {Agata, Marta}   => {Ganhou} 0.1266667 0.7037037  0.1800000 1.3708514 19   
@@ -67,8 +72,8 @@ Desse modo, foi possível constatar que:
 - A combinação de jogadores mais associada a vitórias foi `{Agata, Marta}` com uma confiança de aproximadamente 70%. 
 - A jogadora estrela foi **Marta** com uma confiança de aproximadamente 67%
 
-#### Combinação perdedora
-Após a aplicação do algoritmo para gerar as rgras com consequente `Perdeu` obtivemos o seguinte resultado:
+#### Combinação perdedora e pior jogador
+Após a aplicação do algoritmo para gerar as regras com consequente `Perdeu` obtivemos o seguinte resultado:
 ```
         lhs                   rhs      support   confidence coverage  lift     count
     [1] {Shelda}           => {Perdeu} 0.1333333 0.6250000  0.2133333 1.284247 20   
@@ -78,4 +83,5 @@ Após a aplicação do algoritmo para gerar as rgras com consequente `Perdeu` ob
     [5] {Barbara}          => {Perdeu} 0.2000000 0.5084746  0.3933333 1.044811 30 
 ```
 Desse modo, foi possível constatar que:
-- A combinação de jogadores mais associada a derrotas foi `{Shelda}` com uma confiança de aproximadamente 63%. 
+- A combinação de jogadores mais associada a derrotas foi `{Barbara, Roberto}` com uma confiança de aproximadamente 55%.
+- A pior jogadora foi **Shelda** com uma confiança de aproximadamente 63%.
