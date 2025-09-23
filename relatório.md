@@ -5,7 +5,7 @@ Aqui será registrado o passo a passo do Trabalho 1 de Mineração de Dados!
 
 Nessa fase, foi primeiramente feita uma avaliação dos dados, para verificar quais seriam necessários para responder às perguntas do trabalho. Foi concluído que os dados necessários eram somente os **jogadores de cada partida** e o **resultado dela**. No entanto, era necessário colocar os dados em um formato mais legível, pois os nomes dos jogadores e o resultado das partidas não estavam escritos em um formato padrão. Assim, foi feito o seguinte procedimento:
 
-## Arquivo `preproc.py`
+#### Arquivo `preproc.py`
 - Foram removidas as colunas de contador, e todas as outras, com exceção de ***Jogadore(a)s*** e ***Resultado***;
     - Para facilitar, essas colunas nem sequer foram lidas ao tratar o dataset
 - Os valores de ***Resultado*** foram padronizados para **Ganhou** e **Perdeu**;
@@ -27,7 +27,7 @@ Resultado final dos dados (arquivo `partidas_limpo.csv`):
 
 *Como o Dataset é muito extenso, foram colocadas somente as primeiras 5 linhas, de exemplo.
 
-## Arquivo `verifica_assoc.R`
+#### Arquivo `verifica_assoc.R`
 Após a seleção e limpeza dos dados, foi necessário transformá-los em transações, formato padrão usado pelo algoritmo de associação que será utilizado para extração das regras.
 Assim, cada linha do arquivo `partidas_limpo.csv` foi transformada em uma transação contendo:
 - Os nomes (já padronizados e ordenados) dos jogadores que participaram da partida
