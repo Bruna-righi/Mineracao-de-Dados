@@ -64,7 +64,7 @@ Após a aplicação do algoritmo para gerar as rgras com consequente `Ganhou` ob
     [6] {Ronaldo}        => {Ganhou} 0.1400000 0.5121951  0.2733333 0.9977827 21   
 ```
 Desse modo, foi possível constatar que:
-- A combinação de jogadores mais associada a vitórias foi **Ágata e Marta** com uma confiança de aproximadamente 70%. 
+- A combinação de jogadores mais associada a vitórias foi `{Agata, Marta}` com uma confiança de aproximadamente 70%. 
 - A jogadora estrela foi **Marta** com uma confiança de aproximadamente 67%
 
 #### Combinação perdedora
@@ -78,4 +78,4 @@ Após a aplicação do algoritmo para gerar as rgras com consequente `Perdeu` ob
     [5] {Barbara}          => {Perdeu} 0.2000000 0.5084746  0.3933333 1.044811 30 
 ```
 Desse modo, foi possível constatar que:
-- A combinação de jogadores mais associada a derrotas foi **Barbara, Roberto** com uma confiança de aproximadamente 55%. 
+- A combinação de jogadores mais associada a derrotas foi `{Shelda}` com uma confiança de aproximadamente 63%. 
